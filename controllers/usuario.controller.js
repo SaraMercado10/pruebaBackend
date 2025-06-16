@@ -1,6 +1,37 @@
 const Usuario = require('../models/usuario');
 const usuarioCtrl = {};
 
+//login de usuario
+usuarioCtrl.login = async(req, res) => {
+    //definir los criterios de busqueda en base al nombre de usuario y contraseña
+    const criterio = {
+        username: req.body.username,
+        password: req.body.password,
+    };
+    try{
+        const user = await Usuario.findOne(criterio); //retorno de un objeto que cumpla con el criterio
+        if (!user) {
+            res.json({
+                status: 0,
+                msg: "Las credenciales no son correctas"
+            });
+        } else{
+            res.json({
+                status: 1,
+                msg: "Bienvenido, se ha logueado correctamente",
+                username: user.username, //retorno informacion util para el frontend
+                perfil: user.perfil,
+                userId: user._id
+            });
+        }
+    } catch (error) {
+        res.json({
+            status: 0,
+            msg: "error"
+        });
+    }
+};
+
 //Guardar usuario
 usuarioCtrl.createUsuario = async (req, res) => {
     var usuario = new Usuario(req.body);
