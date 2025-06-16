@@ -4,6 +4,10 @@ const express = require('express');
 const router = express.Router();
 //guardar usuario
 router.post('/', usuarioCtrl.createUsuario);
+
+//login
+router.post('/login', usuarioCtrl.login);
+
 //editar usuario
 router.put('/:id', usuarioCtrl.editUsuario);
 //borrar usuario
